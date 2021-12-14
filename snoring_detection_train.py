@@ -26,7 +26,7 @@ if not os.path.exists(output_dir):
 
 # the filenames should be in the form 'speaker-data-subject-1.csv', e.g. 'speaker-data-Erik-1.csv'.
 
-class_names = ['Ray', 'Ava', 'None'] # the set of classes, i.e. speakers
+class_names = ['snoring', 'none'] # the set of classes, i.e. speakers
 
 data = np.zeros((0,8002)) #8002 = 1 (timestamp) + 8000 (for 8kHz audio data) + 1 (label)
 
@@ -137,8 +137,8 @@ tree.fit(X, y)
 print("\n")
 print("---------------------- Random Forest Classifier -------------------------")
 total_accuracy = 0.0
-total_precision = [0.0, 0.0, 0.0, 0.0]
-total_recall = [0.0, 0.0, 0.0, 0.0]
+total_precision = [0.0, 0.0]
+total_recall = [0.0, 0.0]
 
 for i, (train_index, test_index) in enumerate(cv.split(X)):
 	X_train, X_test = X[train_index], X[test_index]
@@ -153,7 +153,7 @@ for i, (train_index, test_index) in enumerate(cv.split(X)):
 	y_pred = clf.predict(X_test)
 
 	# show the comparison between the predicted and ground-truth labels
-	conf = confusion_matrix(y_test, y_pred, labels=[0,1,2,3])
+	conf = confusion_matrix(y_test, y_pred, labels=[0,1])
 
 	accuracy = np.sum(np.diag(conf)) / float(np.sum(conf))
 	precision = np.nan_to_num(np.diag(conf) / np.sum(conf, axis=1).astype(float))
